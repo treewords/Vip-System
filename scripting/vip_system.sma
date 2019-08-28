@@ -6,9 +6,9 @@
 #include <colorchat>
 #endif	
 
-// #### Конфигурационные defines ####
-#define VIP_ACCESS ADMIN_LEVEL_H			// Флаг доступа VIP (по дефолту флаг "t" ADMIN_LEVEL_H)
-#define CHATTAG "^3[^4VIP INFO^3]^4" 			// Префикс перед сообщениями || ^1 - желтый ^3 - цвет команды ^4 - зеленый
+// #### Configuration defines ####
+#define VIP_ACCESS ADMIN_LEVEL_H			// VIP access flag (default flag is "t" ADMIN_LEVEL_H)
+#define CHATTAG "^3[^4VIP INFO^3]^4" 			// Prefix before messages || ^1 - yellow ^3 - team color ^4 - green
 #define VIPCONNECTED_SOUND "misc/neugomon/vip.wav"	// Звук при заходе VIP игрока на сервер
 #define VIPROUND 2					// C какого раунда можно открыть вип меню
 #define AWPM249RND 5					// С какого раунда доступны AWP и пулемет

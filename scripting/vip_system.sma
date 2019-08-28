@@ -9,19 +9,19 @@
 // #### Configuration defines ####
 #define VIP_ACCESS ADMIN_LEVEL_H			// VIP access flag (default flag is "t" ADMIN_LEVEL_H)
 #define CHATTAG "^3[^4VIP INFO^3]^4" 			// Prefix before messages || ^1 - yellow ^3 - team color ^4 - green
-#define VIPCONNECTED_SOUND "misc/neugomon/vip.wav"	// Звук при заходе VIP игрока на сервер
-#define VIPROUND 2					// C какого раунда можно открыть вип меню
-#define AWPM249RND 5					// С какого раунда доступны AWP и пулемет
+#define VIPCONNECTED_SOUND "misc/neugomon/vip.wav"	// Sound when a VIP player enters the server
+#define VIPROUND 2					// From which round can I open the VIP menu
+#define AWPM249RND 5					// From what round are AWP and machine gun available
 
-#define ADDHP_HS 10					// Кол-во HP за убийство в голову
-#define ADDHP 10					// Кол-во HP за убийство в тело
-#define MAXHP 100					// Максимальное количество HP
+#define ADDHP_HS 10					// HP Headshot Kill
+#define ADDHP 10					// HP Per Body Kill
+#define MAXHP 100					// Max HP
 
-#define AUTOVIPMENU					// Автоматически открывать в начале рануда Вип меню (выключено по дефолту)
-#define VIPAUTODEAGLE					// В начале каждого раунда давать Дигл
-#define VIPAUTOGRENADE					// Давать в начале каждого раунда гранаты
-#define VIPTAB						// Показывать статус VIP в таблице на tab
-// #### Конфигурационные defines ####
+#define AUTOVIPMENU					// Automatically open the VIP menu at the beginning of the round (disabled by default)
+#define VIPAUTODEAGLE					// Give a Deagle at the beginning of each round.
+#define VIPAUTOGRENADE					// Grenade at the beginning of each round
+#define VIPTAB						// Show VIP status in table on tab
+// #### Configuration defines ####
 
 #define is_user_vip(%0) (get_user_flags(%0) & VIP_ACCESS)
 
@@ -123,7 +123,7 @@ public eventDeathMsg()
 		addHP = ((read_data(3) == 1)) ? ADDHP_HS : ADDHP
 		fm_set_user_health(killerID,((killer_HP += addHP) > MAXHP)? MAXHP : killer_HP)
 		set_hudmessage(0, 255, 0, -1.0, 0.15, 0, 1.0, 1.0, 0.1, 0.1, -1)
-		ShowSyncHudMsg(killerID, g_HudSyncMsg, "Добавлено +%d HP", addHP)
+		ShowSyncHudMsg(killerID, g_HudSyncMsg, "Added +%d HP", addHP)
 	}
 }
 

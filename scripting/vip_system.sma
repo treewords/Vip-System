@@ -197,18 +197,18 @@ public CmdMenu(id)
 						static szMenu[512],iLen,iKey;
 
 						iKey = MENU_KEY_0|MENU_KEY_1|MENU_KEY_2;
-						iLen = formatex(szMenu,511,"\yVIP \wWeaponMenu^n^n\y1. \wВзять AK47^n\y2. \wВзять M4A1^n");
+						iLen = formatex(szMenu,511,"\yVIP \wWeaponMenu^n^n\y1. \wTake AK47^n\y2. \wTake M4A1^n");
 
 						if(g_roundCount < AWPM249RND) 
 						{
-							iLen += formatex(szMenu[iLen],511 - iLen,"\y3. \dВзять AWP \r[c %d раунда]^n\y4. \dВзять Пулемет \r[c %d раунда]^n^n",AWPM249RND,AWPM249RND);
+							iLen += formatex(szMenu[iLen],511 - iLen,"\y3. \dTake AWP \r[c %d round]^n\y4. \dTake Machine gun \r[c %d round]^n^n",AWPM249RND,AWPM249RND);
 						}
 						else
 						{
 							iKey |= MENU_KEY_3|MENU_KEY_4;
-							iLen += formatex(szMenu[iLen],511 - iLen,"\y3. \wВзять AWP^n\y4. \wВзять Пулемет^n^n");
+							iLen += formatex(szMenu[iLen],511 - iLen,"\y3. \wTake AWP^n\y4. \wTake Machine gun^n^n");
 						}
-						formatex(szMenu[iLen],511 - iLen,"\y0. \wВыход");
+						formatex(szMenu[iLen],511 - iLen,"\y0. \wExit");
 						set_pdata_int(id, 205, 0);
 						return show_menu(id,iKey,szMenu,-1,"Vip Menu");
 					}

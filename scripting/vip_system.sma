@@ -7,21 +7,21 @@
 #endif	
 
 // #### Configuration defines ####
-#define VIP_ACCESS ADMIN_LEVEL_H			// VIP access flag (default flag is "t" ADMIN_LEVEL_H)
-#define CHATTAG "^3[^4VIP INFO^3]^4" 			// Prefix before messages || ^1 - yellow ^3 - team color ^4 - green
-#define VIPCONNECTED_SOUND "misc/neugomon/vip.wav"	// Sound when a VIP player enters the server
-#define VIPROUND 2					// From which round can I open the VIP menu
-#define AWPM249RND 5					// From what round are AWP and machine gun available
+#define VIP_ACCESS ADMIN_LEVEL_H			           // VIP access flag (default flag is "t" ADMIN_LEVEL_H)
+//#define CHATTAG "^3[^4VIP INFO^3]^4" 			       // Prefix before messages || ^1 - yellow ^3 - team color ^4 - green
+//#define VIPCONNECTED_SOUND "misc/neugomon/vip.wav"   // Sound when a VIP player enters the server
+#define VIPROUND 2					                   // From which round can I open the VIP menu
+#define AWPM249RND 5					               // From what round are AWP and machine gun available
 
-#define ADDHP_HS 10					// HP Headshot Kill
-#define ADDHP 10					// HP Per Body Kill
-#define MAXHP 100					// Max HP
+#define ADDHP_HS 25					                   // HP Headshot Kill
+#define ADDHP 15					                   // HP Per Body Kill
+#define MAXHP 100					                   // Max HP
 
-#define AUTOVIPMENU					// Automatically open the VIP menu at the beginning of the round (disabled by default)
-#define VIPAUTODEAGLE					// Give a Deagle at the beginning of each round.
-#define VIPAUTOGRENADE					// Grenade at the beginning of each round
-#define VIPTAB						// Show VIP status in table on tab
-// #### Configuration defines ####
+#define AUTOVIPMENU					                   // Automatically open the VIP menu at the beginning of the round (disabled by default)
+#define VIPAUTODEAGLE					               // Give a Deagle at the beginning of each round.
+#define VIPAUTOGRENADE					               // Grenade at the beginning of each round
+#define VIPTAB	
+				      
 
 #define is_user_vip(%0) (get_user_flags(%0) & VIP_ACCESS)
 
@@ -61,7 +61,7 @@ public plugin_init()
 	register_clcmd("say", "hook_say");
 	register_clcmd("say_team", "hook_say");
 	
-	register_menucmd(register_menuid("Vip Menu"), MENU_KEY_0|MENU_KEY_1|MENU_KEY_2|MENU_KEY_3|MENU_KEY_4, "handler");
+	register_menucmd(register_menuid("Vip Menu"), MENU_KEY_0|MENU_KEY_1|MENU_KEY_2|MENU_KEY_3, "handler");
 	
 	iMaxPlayers = get_maxplayers();
 	g_HudSyncMsg = CreateHudSyncObj();
@@ -136,7 +136,6 @@ public Player_Spawn(id)
 		#if defined VIPAUTOGRENADE
 		fm_give_item(id, "weapon_hegrenade");
 		fm_give_item(id, "weapon_flashbang");
-		fm_give_item(id, "weapon_smokegrenade");
 		cs_set_user_bpammo(id, CSW_FLASHBANG, 2);
 		#endif
 		#if defined VIPAUTODEAGLE
@@ -163,7 +162,7 @@ public hook_say(id)
 		return 0;
 	}
 	static a;
-	static const szChoosedWP[][] = { "/ak47", "/m4a1", "/awp", "/b51" };
+	static const szChoosedWP[][] = { "/ak47", "/m4a1", "/awp" };
 	for(a = 0; a < sizeof szChoosedWP; a++)
 	{
 		if(equal(szMsg,szChoosedWP[a]))
@@ -197,16 +196,16 @@ public CmdMenu(id)
 						static szMenu[512],iLen,iKey;
 
 						iKey = MENU_KEY_0|MENU_KEY_1|MENU_KEY_2;
-						iLen = formatex(szMenu,511,"\yVIP \wWeaponMenu^n^n\y1. \wTake AK47^n\y2. \wTake M4A1^n");
+						iLen = formatex(szMenu,511,"\yVIP \rWeapon Menu^n^n\y1. \wChoose AK47 Kalashnikov^n\y2. \wChoose M4A1 Carbine^n");
 
 						if(g_roundCount < AWPM249RND) 
 						{
-							iLen += formatex(szMenu[iLen],511 - iLen,"\y3. \dTake AWP \r[c %d round]^n\y4. \dTake Machine gun \r[c %d round]^n^n",AWPM249RND,AWPM249RND);
+							iLen += formatex(szMenu[iLen],511 - iLen,"\y3. \dChoose AWP Magnum Sniper Rifle \r[From round %d]^n^n",AWPM249RND);
 						}
 						else
 						{
-							iKey |= MENU_KEY_3|MENU_KEY_4;
-							iLen += formatex(szMenu[iLen],511 - iLen,"\y3. \wTake AWP^n\y4. \wTake Machine gun^n^n");
+							iKey |= MENU_KEY_3;
+							iLen += formatex(szMenu[iLen],511 - iLen,"\y3. \wChoose AWP Magnum Sniper Rifle^n^n");
 						}
 						formatex(szMenu[iLen],511 - iLen,"\y0. \wExit");
 						set_pdata_int(id, 205, 0);
@@ -293,18 +292,18 @@ stock chat_message(id, message=0)
 {
 	switch(message)
 	{
-		case 0: client_print_color(id, 0, "%s Оружия доступны только с^3 %d ^4раунда!", CHATTAG, VIPROUND);
-		case 1: client_print_color(id, 0, "%s Вы ^3уже брали ^4оружие в этом раунде!", CHATTAG);
-		case 2: client_print_color(id, 0, "%s Разминочный раунд. ^3Запрещено ^4пользоваться командой!", CHATTAG);
-		case 3: client_print_color(id, 0, "%s Для использования данной команды вы должны быть ^3живы^4!", CHATTAG);
-		case 4: client_print_color(id, 0, "%s ^3Только VIP-игрок ^4может пользоваться этой командой!", CHATTAG);
+		case 0: client_print_color(id, 0, "%s Weapons available only с^3 %d ^4round!", CHATTAG, VIPROUND);
+		case 1: client_print_color(id, 0, "%s You ^3already taken ^4weapons in this round!", CHATTAG);
+		case 2: client_print_color(id, 0, "%s Warm-up round.", CHATTAG);
+		case 3: client_print_color(id, 0, "%s To use this command you must be ^3are alive^4!", CHATTAG);
+		case 4: client_print_color(id, 0, "%s ^3VIP player only ^4can use this command!", CHATTAG);
 		case 5: 
 		{
 			new name[32];
 			get_user_name(id, name, charsmax(name));
-			client_print_color(id, 0, "%s На сервер зашёл ^3VIP клиент ^1%s", CHATTAG, name);
+			client_print_color(id, 0, "%s I went to the server ^3VIP client ^1%s", CHATTAG, name);
 		}
-		case 6: client_print_color(id, 0, "%s Данное оружие доступно только с^3 %d ^4раунда!", CHATTAG, AWPM249RND);
+		case 6: client_print_color(id, 0, "%s This weapon is only available с^3 %d ^4round!", CHATTAG, AWPM249RND);
 	}
 	return 1
 }
